@@ -1,0 +1,1 @@
+export const styleButton = 'min-w-[15rem] w-max min-h-[3.8rem] h-max rounded-md text-[#fff] text-[1.4rem] bg-[var(--color-pink)] flex justify-center  items-center gap-[.6rem]'

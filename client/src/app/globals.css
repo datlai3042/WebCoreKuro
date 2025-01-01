@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .custom-button {
+    @apply min-w-[15rem] w-max min-h-[3.8rem] h-max rounded-md text-[#fff] text-[1.4rem] bg-[var(--color-pink)] flex justify-center  items-center gap-[.6rem];
+  }
+}
+
+:root {
+  --color-pink: #7731d8;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.print-logo {
+  display: none;
+}
+
+@media print {
+  body {
+    background-color: white; /* hoặc màu nền bạn muốn */
+    -webkit-print-color-adjust: exact; /* Đảm bảo màu sắc chính xác */
+    print-color-adjust: exact;
+  }
+
+  video {
+    display: block;
+  }
+
+  .print-logo {
+    display: flex;
+  }
+  img {
+    display: block !important;
+  }
+}

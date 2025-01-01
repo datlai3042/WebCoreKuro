@@ -1,0 +1,5 @@
+export const AUTHORIZATION_ERROR_STATUS = 401;
+export const PERMISSION_ERROR_STATUS = 403;
+export const NOTFOUND_ERROR_STATUS = 404;
+export const BADREQUEST_ERROR_STATUS = 400;
+export const OK = 200
