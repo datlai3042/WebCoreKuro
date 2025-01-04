@@ -1,29 +1,53 @@
 import { CreateDomAlertProps } from "./elementDom.type";
 class ElementDOM {
   createElementAlert(props: CreateDomAlertProps) {
-    const { buttonText, isCloseMask, title, callback } = props;
+    const { button, isCloseMask, title, content, callback } = props;
 
-    const container = document.createElement("div");
+    const root = document.createElement("div");
     const onCloseAction = () => {
-      container.onclick = () => {
-        document.body.removeChild(container);
+      root.onclick = () => {
+        document.body.removeChild(root);
       };
     };
+    const container = document.createElement("div");
+    root.className = "root__container";
+
+    container.className = "alert__container";
 
     const wrapper = document.createElement("div");
-    const text = document.createElement("p");
-    const buttonClose = document.createElement("button");
-    container.className = "alert__container";
-    wrapper.className = "alert__wrapper";
-    buttonClose.className = 'custom-button'
-    text.textContent = title || "";
-    buttonClose.textContent = buttonText || "";
-    
-    container.appendChild(wrapper);
+    wrapper.className = 'alert__wrapper'
 
-    wrapper.appendChild(text);
-    wrapper.appendChild(buttonClose);
-    document.body.appendChild(container);
+    const contentDOM = document.createElement('div')
+    const actionDOM = document.createElement('div')
+    contentDOM.className = 'alert__content'
+    actionDOM.className = 'alert__action'
+
+
+
+    const titleDOM = document.createElement("p");
+    const textDOM = document.createElement("p");
+
+    titleDOM.className = 'alert__title'
+    titleDOM.textContent = title || "";
+    textDOM.textContent = content || "";
+    textDOM.className = 'alert__text'
+
+
+    contentDOM.appendChild(titleDOM)
+    contentDOM.appendChild(textDOM)
+    console.log({ props })
+    const buttonAction = document.createElement("button");
+    actionDOM.appendChild(buttonAction)
+    buttonAction.className = 'custom-button'
+    buttonAction.textContent = button?.text || "";
+  
+
+    wrapper.appendChild(contentDOM);
+    wrapper.appendChild(actionDOM);
+
+    document.body.appendChild(root);
+    container.appendChild(wrapper)
+    root.appendChild(container);
     if (isCloseMask) {
       onCloseAction();
       if (callback) {
@@ -31,17 +55,17 @@ class ElementDOM {
       }
     }
 
-    wrapper.onclick = (e) => {
+    container.onclick = (e) => {
       e.stopPropagation();
     };
-    buttonClose.onclick = () => {
+    buttonAction.onclick = () => {
       if (callback) {
         onCloseAction();
         callback();
       }
-      document.body.removeChild(container);
+      button.action()
+      document.body.removeChild(root);
     };
-    console.log({ container });
   }
 }
 

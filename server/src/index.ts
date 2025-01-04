@@ -9,6 +9,9 @@ import cookieParser from 'cookie-parser'
 
 import bodyParser from 'body-parser'
 import router from './routers'
+import MongoConnect from './database/mongo.database'
+import { Http } from './type'
+import errorHandler from './helpers/error.catch'
 
 export type UserSocket = { [key: string]: { socket_id: string } }
 
@@ -16,6 +19,7 @@ config()
 const app = express()
 
 
+MongoConnect.Connect()
 
 app.use(helmet())
 app.use(compression())
@@ -37,9 +41,9 @@ app.use(
 
 app.use('', router)
 
-// app.use((error: ErrorServer, req: Request, res: Response, next: NextFunction) => {
-//   return errorHandler(error, req, res, next)
-// })
+app.use((error: Http.ServerError, req: Request, res: Response, next: NextFunction) => {
+  return errorHandler(error, req, res, next)
+})
 
 
 const PORT = process.env.PORT || 4001

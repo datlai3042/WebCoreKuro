@@ -7,7 +7,6 @@ type SpinnerProps = JSX.IntrinsicElements["div"] & {
 
 const Spinner = (props: SpinnerProps) => {
   const { spinnerColor, ...rest } = props;
-  console.log({style: rest.style})
   const renderColorSpinner = () => {
     if (spinnerColor) {
       return { borderLeftColor: spinnerColor, borderTopColor: spinnerColor };

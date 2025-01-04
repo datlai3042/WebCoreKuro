@@ -15,6 +15,8 @@ class ResponseSuccess {
   }
 
   send(res: Response) {
+    console.log(this)
+
     return res.json(this)
   }
 }

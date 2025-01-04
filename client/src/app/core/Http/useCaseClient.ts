@@ -4,6 +4,7 @@ import { request } from "."
 import { AUTHORIZATION_ERROR_STATUS, OK, PERMISSION_ERROR_STATUS } from "./http.constant"
 import { RequestRetryParams, ResponseInstance } from "./http.type"
 import elementDom from "../Helpers/ElementDOM"
+import { REFRESH_TOKEN_URL } from "@/app/services/authentication/auth.constant"
 
 export const ResloveClientError = async <TResponse>(
     args: RequestRetryParams
@@ -18,7 +19,8 @@ export const ResloveClientError = async <TResponse>(
             return Client403(args)
         }
         default: {
-            elementDom.createElementAlert({ title: 'Lỗi nội bộ', buttonText: 'Đăng xuất', callback: () => AuthService.logout() })
+            console.log('Lỗi')
+            // elementDom.createElementAlert({ title: 'Lỗi nội bộ', buttonText: 'Đăng xuất', callback: () => AuthService.logout() })
         }
     }
 }
@@ -27,13 +29,13 @@ let refreshTokenPromise: Promise<ResponseInstance<ResponseAuth>> | null = null;
 const Client401 = async <TResponse>(args: RequestRetryParams) => {
     const { httpInstance, method, options, url } = args
     if (!refreshTokenPromise) {
-        httpInstance.isPendingRefreshToken = true
         refreshTokenPromise = AuthService.refreshTokenClient().finally(() => (refreshTokenPromise = null));
     }
 
     if (httpInstance.isPendingRefreshToken) {
         httpInstance.queue_faild.push(args)
     }
+    httpInstance.isPendingRefreshToken = true
 
     return refreshTokenPromise?.then(async (res) => {
         if (+res.code === PERMISSION_ERROR_STATUS) {
@@ -63,9 +65,13 @@ const Client401 = async <TResponse>(args: RequestRetryParams) => {
 }
 
 const Client403 = (args: RequestRetryParams) => {
+    console.log({args})
+    if(args.url === REFRESH_TOKEN_URL) {
+    return AuthService.logout()
+
+    }
     const { httpInstance } = args
     if (httpInstance.queue_faild.length > 0) {
         httpInstance.queue_faild = []
     }
-    return AuthService.logout()
 }

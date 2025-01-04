@@ -1,0 +1,14 @@
+.modalImages__container {
+  animation: showLarge 10s linear both;
+  transition: width 2s;
+  background-color: red;
+}
+
+@keyframes showLarge {
+  0% {
+    height: 0%;
+  }
+  90% {
+    height: 100%;
+  }
+}

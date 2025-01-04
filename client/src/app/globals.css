@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+button {
+  border: none;
+  outline: none;
+}
+
+body {
+  min-height: 100vh;
+  background-image: var(--bg-body-color)
+}
+
+.ani-scale {
+  animation: scale .2s linear both;
+
+}
+@keyframes scale {
+  0% {
+    transform: scale(0) translate3d(-50%, -50%, 0);
+  }
+  90% {
+    transform: scale(1) translate3d(-50%, -50%, 0);
+  }
+}
 @layer components {
   .custom-button {
     @apply min-w-[15rem] w-max min-h-[3.8rem] h-max rounded-md text-[#fff] text-[1.4rem] bg-[var(--color-pink)] flex justify-center  items-center gap-[.6rem];

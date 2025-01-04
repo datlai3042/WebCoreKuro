@@ -1,9 +1,14 @@
-import { Router } from "express";
+import { Router } from 'express'
+import { AuthController } from '~/controllers'
+import asyncHandler from '~/helpers/asyncHandler'
+import authentication from '~/middlewares/authentication'
 
 const routerAuthentication = Router()
-routerAuthentication.post('/register', (req, res, next) => { })
-routerAuthentication.post('/login', (req, res, next) => { })
-routerAuthentication.post('/logout', (req, res, next) => { })
-routerAuthentication.get('/refresh-token', (req, res, next) => { })
+routerAuthentication.post('/register', asyncHandler(AuthController.register))
+routerAuthentication.post('/login', asyncHandler(AuthController.login))
+
+routerAuthentication.use(authentication)
+routerAuthentication.post('/logout', asyncHandler(AuthController.logout))
+routerAuthentication.get('/refresh-token', asyncHandler(AuthController.refreshToken))
 
 export default routerAuthentication

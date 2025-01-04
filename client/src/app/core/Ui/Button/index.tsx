@@ -17,15 +17,17 @@ export type ButtonProps = {
     position?: "Before" | "After";
     hidden?: boolean;
   };
+  styleText?: React.CSSProperties
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button = (props: ButtonProps) => {
   const {
     textContent,
     loading,
-    typeLoading,
+    typeLoading = 'spinner',
     loadingStyle,
     iconConfig,
+    styleText = {},
     ...buttonProps
   } = props;
 
@@ -44,7 +46,7 @@ const Button = (props: ButtonProps) => {
       className={`${styleButton} ${buttonProps.className}`}
     >
       {iconConfig && renderIcon}
-      <span>{textContent}</span>
+      <span style={styleText}>{textContent}</span>
       {loading && typeLoading === "spinner" && <Spinner style={loadingStyle} />}
     </button>
   );

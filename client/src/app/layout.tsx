@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import AuthenticationProvider from "./core/Context/Authentication.context";
 import "./globals.css";
 import "./styles/element.global.scss";
+import './styles/theme.global.css'
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -13,6 +14,13 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+import { Inter } from "next/font/google";
+import { ApplicationErrorProvider } from "./core/Context/ApplicationError";
+import ThemeProvider from "./core/Context/Theme";
+
+const inter = Inter({ subsets: ["latin"] });
+// If loading a variable font, you don't need to specify the font weight
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,9 +35,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased ${inter.className}`}
       >
-        <AuthenticationProvider>{children}</AuthenticationProvider>
+        <ApplicationErrorProvider>
+          <ThemeProvider>
+            <AuthenticationProvider>{children}</AuthenticationProvider>
+          </ThemeProvider>
+        </ApplicationErrorProvider>
       </body>
     </html>
   );

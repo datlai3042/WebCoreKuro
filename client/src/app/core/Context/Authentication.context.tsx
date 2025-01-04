@@ -23,12 +23,12 @@ const AuthenticationProvider = ({
   return (
     <AuthenticationContext.Provider value={{ showBoxAuth, setShowBoxAuth }}>
       {showBoxAuth ? (
-        <Overlay
-          ComponentCore={<BoxLogin />}
-          onClickOverlay={() => setShowBoxAuth((prev) => !prev)}
-        >
+        <>
+          <Overlay onClickOverlay={() => setShowBoxAuth((prev) => !prev)}>
+            <BoxLogin />
+          </Overlay>
           {children}
-        </Overlay>
+        </>
       ) : (
         children
       )}
