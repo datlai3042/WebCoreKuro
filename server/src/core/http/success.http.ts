@@ -16,8 +16,14 @@ class ResponseSuccess {
 
   send(res: Response) {
     console.log(this)
-
     return res.json(this)
+  }
+
+  sendStream(res: Response) {
+    const boundary = 'boundary';
+    res.setHeader('Content-Type', `multipart/mixed; boundary=${boundary}`);
+    console.log(this)
+    return res.end()
   }
 }
 

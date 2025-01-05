@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Overlay from "../../Overlay";
 import { ModalImagesProps } from "./modalImages.type";
 import styles from "./styles.module.scss";
 import http from "@/app/core/Http";
 const ModalImages = (props: ModalImagesProps) => {
   const { list, onClick, keyActive, onSetActive } = props;
+  const [files, setFile] = useState<File[]>([])
   const downloadImage = (e) => {
     e.preventDefault(); // Ngừng hành động mặc định của thẻ <a>
 
@@ -25,11 +26,38 @@ const ModalImages = (props: ModalImagesProps) => {
 
   useEffect(() => {
     const callApi = async () => {
-      const res = await http.get<unknown>('/v1/api/tasks/get-images' , {})
+      const res = await http.get<any>('/v1/api/tasks/get-images' , {})
       console.log({res})
+      const {images} = res?.metadata
+      images.forEach((img) => {
+        const data = img?.data?.data
+        console.log({img})
+        const blob = new Blob([new Uint8Array(data)], { type: `image/${img?.name?.name.split('.')[1]}` }); // Thay 'image/jpeg' nếu ảnh là PNG hoặc GIF
+        const url =  URL.createObjectURL(blob); // Tạo URL tạm thời từ Blob
+        console.log({url, type: `image/${img?.name?.name.split('/')[1]}` , img})
+        const imgs = new Image()
+        imgs.src = url
+        imgs.style.objectFit = 'contain'
+        document.body.appendChild(imgs)
+      })
     }
     callApi()
   }, [])
+
+
+  useEffect(() => {
+    if(files.length === 0) return
+    files.forEach(file => {
+      const content = file?.content;
+      if (content) {
+        // Chuyển stream thành Blob
+        const blob = new Blob([content], {type: 'image/jpg'})
+        const url = URL.createObjectURL(blob)
+        console.log({url, content})
+      }
+  
+    })
+  }, [files])
 
   return (
     <Overlay

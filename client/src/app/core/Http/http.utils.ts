@@ -14,15 +14,15 @@ export const generateInfoRequest = (url: string, options: RequestCustome) => {
     let baseUrl = "http://localhost:4001";
     if (options?.baseUrl === undefined) {
         //   if (process.env.NEXT_PUBLIC_MODE === "DEV") {
-                baseUrl = "http://localhost:4001";
+        baseUrl = "http://localhost:4001";
         //   } else {
-                // baseUrl = process.env.NEXT_PUBLIC_BACK_END_URL;
+        // baseUrl = process.env.NEXT_PUBLIC_BACK_END_URL;
         //   }
     } else {
         //   if (process.env.NEXT_PUBLIC_MODE === "DEV") {
-                baseUrl = "http://localhost:3000";
+        baseUrl = "http://localhost:3000";
         //   } else {
-                // baseUrl = process.env.NEXT_PUBLIC_CLIENT_URL;
+        // baseUrl = process.env.NEXT_PUBLIC_CLIENT_URL;
         //   }
     }
 
@@ -38,22 +38,79 @@ export const generateCookiesNextServer = (cookieInstance: ReadonlyRequestCookies
     const refresh_token = cookieInstance.get('next_refresh_token')?.value
     const headers =
         `client_id=${client_id};access_token=${access_token};refresh_token=${refresh_token}`
-        console.log({headers})
+    console.log({ headers })
     return headers
 }
 
 
-export const generateMessageError =  (error: Error) => {
+export const generateMessageError = (error: Error) => {
     let message = 'Lỗi không xác định'
-    if(error?.message === FETCH_FAILED.type) {
+    if (error?.message === FETCH_FAILED.type) {
         message = FETCH_FAILED.message
-        console.log({message})
-        return message 
+        console.log({ message })
+        return message
     }
-    console.log({message, error})
+    console.log({ message, error })
 
     return message
 }
+
+export const generateFilesToStream = async (
+    reader: ReadableStreamDefaultReader<Uint8Array> | undefined
+) => {
+    if (!reader) return [];
+    const files: { filename: string; content: string }[] = [];
+    const boundary = 'boundary'; // Trùng với giá trị trên server
+    let buffer = '';  // Chuỗi sẽ chứa dữ liệu giải mã
+
+    const decoder = new TextDecoder('utf-8'); // Sử dụng TextDecoder để chuyển đổi Uint8Array thành chuỗi
+
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        // Giải mã dữ liệu và thêm vào buffer
+        const decodedValue = decoder.decode(value, { stream: true });
+        buffer += decodedValue;
+
+        console.log("Current Buffer:", buffer); // Debug buffer sau khi thêm dữ liệu
+
+        // Tìm và xử lý boundary
+        let boundaryIndex;
+        while ((boundaryIndex = buffer.indexOf(`--${boundary}`)) !== -1) {
+            console.log(`Found boundary at index: ${boundaryIndex}`);
+
+            const part = buffer.slice(0, boundaryIndex);  // Lấy phần dữ liệu trước boundary
+            buffer = buffer.slice(boundaryIndex + boundary.length + 2); // Cắt bỏ phần dữ liệu đã xử lý
+            console.log("Part to process:", part); // Debug dữ liệu phần đã tách
+
+            if (part.length) {
+                const match = parseMultipart(part); // Tách file từ dữ liệu
+                if (match) {
+                    console.log("Matched file:", match);
+                    files.push(match);
+                } else {
+                    console.log("No match for part");
+                }
+            }
+        }
+    }
+
+    // Trả về mảng file
+    return files;
+};
+
+const parseMultipart = (part: string) => {
+    // Tách các phần dữ liệu thành filename và content
+    const match = part.match(/Content-Disposition: attachment; filename="([^"]+)"\r\n\r\n([\s\S]*)/);
+
+    if (match) {
+        const [, filename, content] = match;
+        return { filename, content }; // Trả về filename và content dạng chuỗi
+    }
+    return null;
+};
+
 
 
 

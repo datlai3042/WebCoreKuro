@@ -49,20 +49,31 @@ class TasksService {
   }
 
 
-  static async getImages(req: Http.RequestCutome, res: Response, next: NextFunction) {
-    console.log({imageDirectory})
-    fs.readdir(imageDirectory, (err, files) => {
-      if (err) {
-        console.error('Error reading directory:', err);
-        console.log({err})
-        throw new AuthFailedError({metadata: 'lỗi filed'})
-      }
-      console.log({files})
-      // Trả về danh sách ảnh
 
-      return { images: files }
+  static async getImages(req: Http.RequestCutome, res: Response, next: NextFunction) {
+
+
+    const fileNames = await fs.promises.readdir(imageDirectory); // Đọc thư mục
+    const files = fileNames.map((fileName) => ({
+      name: fileName,
+      path: path.join(imageDirectory, fileName),
+    }));
+
+    const images = [];
+
+    files.forEach(file => {
+      const filePath = path.join(imageDirectory, file.name);
+      const data = fs.readFileSync(filePath); // Đọc file dưới dạng byte
+      console.log({data})
+      images.push({
+        name: file,
+        data: data // Dữ liệu ảnh dưới dạng byte
+      });
     });
+
+    return { images }
   }
+
 }
 
 

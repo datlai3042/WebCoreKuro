@@ -1,8 +1,12 @@
 import { Http } from "."
 
+export type ResponseTypeCustome = 'json' | 'stream'
+
 export type RequestCustome = Omit<RequestInit, 'method'> & {
     baseUrl?: string
     pathname?: string
+} & {
+    responseType?: ResponseTypeCustome
 }
 
 export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
@@ -27,6 +31,6 @@ export type RequestRetryParams = {
 
 export type ResponseInstance<Metadata> = {
     code: number;
-	message: string;
-	metadata: Metadata;
+    message: string;
+    metadata: Metadata;
 }

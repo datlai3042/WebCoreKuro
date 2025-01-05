@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import storage from "../Helpers/LocalStorage.helper";
 import { API_SYNC_TOKEN, OK } from "./http.constant";
 import { RequestCustome, RequestMethod, RequestRetryParams, ResponseInstance } from "./http.type";
-import { generateInfoRequest } from "./http.utils";
+import { generateFilesToStream, generateInfoRequest } from "./http.utils";
 import { ResloveClientError } from "./useCaseClient";
 import { ResloveServerError } from "./useCaseServer";
 
@@ -20,6 +20,7 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
         } as any,
         body,
         method,
+
         credentials: "include",
     };
     let response: Response = {} as Response
@@ -63,9 +64,10 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
         }
         return {} as TResponse
     }
-    const contentType = response.headers.get('Content-Type');
-    console.log({contentType})
-    if (contentType && contentType.includes('application/json')) {
+
+
+    const responseType = options.responseType || 'json'; // Mặc định là 'json'
+    if (responseType === 'json') {
         const payload = await response.json();
         if (API_SYNC_TOKEN.includes(url)) {
             const { code, metadata } = payload as ResponseInstance<ResponseAuth>
@@ -79,13 +81,15 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
                 await AuthService.syncNextToken({ access_token, refresh_token, client_id })
             }
         }
-        return payload
+        return payload;
+    }
 
+    if (responseType === 'stream') {
+        const reader = response.body?.getReader();
+        return generateFilesToStream(reader)
     }
-    if (contentType && contentType.includes('application/octet-stream')) {
-        const payload = await response.blob() as TResponse
-        return payload
-    }
+    return {} as TResponse;
+
 
 
 
@@ -99,23 +103,30 @@ export class Http {
     static isPendingRefreshToken = false
     static get<TResponse>(url: string, options: Omit<RequestCustome, "body">) {
         const method: RequestMethod = 'GET'
-        return request<ResponseInstance<TResponse>>(method, url, options, Http,)
+        const responseType = options.responseType ? options.responseType: 'json'
+        console.log({responseType})
+        return request<ResponseInstance<TResponse>>(method, url, { ...options, responseType }, Http,)
     }
 
     static post<TResponse>(url: string, body: any, options: Omit<RequestCustome, "body"> = {}) {
         const method: RequestMethod = 'POST'
-        console.log({ url })
-        return request<ResponseInstance<TResponse>>(method, url, { ...options, body }, Http,)
+        const responseType = options.responseType ? options.responseType: 'json'
+
+        return request<ResponseInstance<TResponse>>(method, url, { ...options, body, responseType }, Http,)
     }
 
     static put<TResponse>(url: string, body: any, options: Omit<RequestCustome, 'body'> = {}) {
         const method: RequestMethod = 'PUT'
-        return request<ResponseInstance<TResponse>>(method, url, { ...options, body }, Http,)
+        const responseType = options.responseType ? options.responseType: 'json'
+
+        return request<ResponseInstance<TResponse>>(method, url, { ...options, body, responseType }, Http,)
     }
 
     static delete<TResponse>(url: string, options: Omit<RequestCustome, 'body'> = {}) {
         const method: RequestMethod = 'DELETE'
-        return request<ResponseInstance<TResponse>>(method, url, options, Http,)
+        const responseType = options.responseType ? options.responseType: 'json'
+
+        return request<ResponseInstance<TResponse>>(method, url, { ...options, responseType }, Http,)
     }
 
     static clearInstanceCache() {
