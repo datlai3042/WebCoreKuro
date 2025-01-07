@@ -9,19 +9,33 @@ button {
 
 body {
   min-height: 100vh;
-  background-image: var(--bg-body-color)
+  background-image: var(--bg-body-color);
+}
+
+*::-webkit-scrollbar {
+  width: .8rem;
+  height: .4rem;
+
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-bar-thumb);
+border-radius: .6rem;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: var(--scroll-bar-track);
 }
 
 .ani-scale {
-  animation: scale .2s linear both;
-
+  animation: ani-scale 0.4s linear both;
 }
-@keyframes scale {
+@keyframes ani-scale {
   0% {
-    transform: scale(0) translate3d(-50%, -50%, 0);
+    transform: scale(0);
   }
   90% {
-    transform: scale(1) translate3d(-50%, -50%, 0);
+    transform: scale(1);
   }
 }
 @layer components {

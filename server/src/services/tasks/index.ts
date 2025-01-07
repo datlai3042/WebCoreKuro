@@ -59,6 +59,9 @@ class TasksService {
       path: path.join(imageDirectory, fileName),
     }));
 
+
+    console.log({fileNames, files})
+
     const images = [];
 
     files.forEach(file => {
@@ -66,11 +69,11 @@ class TasksService {
       const data = fs.readFileSync(filePath); // Đọc file dưới dạng byte
       console.log({data})
       images.push({
-        name: file,
+        name: file?.name,
         data: data // Dữ liệu ảnh dưới dạng byte
       });
     });
-
+    console.log({images})
     return { images }
   }
 

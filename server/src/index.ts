@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', process.env.CLIENT_URL as string],// Cho phép truy cập từ origin này
+    origin: ['http://localhost:3000', 'http://localhost:5173',process.env.CLIENT_URL as string],// Cho phép truy cập từ origin này
     methods: ['GET', 'POST', 'DELETE'], // Chỉ cho phép các phương thức GET và POST
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'], // Chỉ
     credentials: true

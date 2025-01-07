@@ -1,8 +1,6 @@
  type ModalImagesProps = {
     onClick: () => void,
-    list?: string[],
-    onSetActive?: () => void,
-    keyActive?: string
+    onClose: () => void
 }
 
 

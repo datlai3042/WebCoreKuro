@@ -62,13 +62,12 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
         } else {
             await ResloveServerError(+response.status, options as RequestCustome);
         }
-        return {} as TResponse
     }
 
 
     const responseType = options.responseType || 'json'; // Mặc định là 'json'
     if (responseType === 'json') {
-        const payload = await response.json();
+        const payload: TResponse = await response.json();
         if (API_SYNC_TOKEN.includes(url)) {
             const { code, metadata } = payload as ResponseInstance<ResponseAuth>
             if (+code === OK) {
@@ -86,7 +85,7 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
 
     if (responseType === 'stream') {
         const reader = response.body?.getReader();
-        return generateFilesToStream(reader)
+        return generateFilesToStream(reader) as  TResponse
     }
     return {} as TResponse;
 
@@ -101,30 +100,30 @@ export const request = async <TResponse>(method: RequestMethod, url: string, opt
 export class Http {
     static queue_faild: RequestRetryParams[] = []
     static isPendingRefreshToken = false
-    static get<TResponse>(url: string, options: Omit<RequestCustome, "body">) {
+    static get<TResponse>(url: string, options: Omit<RequestCustome, "body">): Promise<ResponseInstance<TResponse>> {
         const method: RequestMethod = 'GET'
-        const responseType = options.responseType ? options.responseType: 'json'
-        console.log({responseType})
+        const responseType = options.responseType ? options.responseType : 'json'
+        console.log({ responseType })
         return request<ResponseInstance<TResponse>>(method, url, { ...options, responseType }, Http,)
     }
 
     static post<TResponse>(url: string, body: any, options: Omit<RequestCustome, "body"> = {}) {
         const method: RequestMethod = 'POST'
-        const responseType = options.responseType ? options.responseType: 'json'
+        const responseType = options.responseType ? options.responseType : 'json'
 
         return request<ResponseInstance<TResponse>>(method, url, { ...options, body, responseType }, Http,)
     }
 
     static put<TResponse>(url: string, body: any, options: Omit<RequestCustome, 'body'> = {}) {
         const method: RequestMethod = 'PUT'
-        const responseType = options.responseType ? options.responseType: 'json'
+        const responseType = options.responseType ? options.responseType : 'json'
 
         return request<ResponseInstance<TResponse>>(method, url, { ...options, body, responseType }, Http,)
     }
 
     static delete<TResponse>(url: string, options: Omit<RequestCustome, 'body'> = {}) {
         const method: RequestMethod = 'DELETE'
-        const responseType = options.responseType ? options.responseType: 'json'
+        const responseType = options.responseType ? options.responseType : 'json'
 
         return request<ResponseInstance<TResponse>>(method, url, { ...options, responseType }, Http,)
     }

@@ -13,6 +13,7 @@ import SkeletonLine from "./core/Ui/Loading/Skeleton/Line";
 import SkeletonAvatar from "./core/Ui/Loading/Skeleton/Avatar";
 import SkeletonBox from "./core/Ui/Loading/Skeleton/Box";
 import ModalImages from "./core/Components/Modal/Images";
+import Image from "next/image";
 
 const list = [
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaCpoEEdCLYs62sDKwTLi88GFzlVFm4Y0S_g&s",
@@ -90,21 +91,22 @@ export default function Home() {
     }
   }, [countDown]);
 
-  useEffect(() => {
-    if (countDown && countDown <= -1) return;
-    timer = setInterval(() => {
-      setCountDowm((prev) => {
-        return (prev -= 1);
-      });
-    }, 1000);
+  // useEffect(() => {
+  //   if (countDown && countDown <= -1) return;
+  //   timer = setInterval(() => {
+  //     setCountDowm((prev) => {
+  //       return (prev -= 1);
+  //     });
+  //   }, 1000);
 
-    return () => {
-      clearInterval(timer as NodeJS.Timeout);
-    };
-  }, [countDown]);
+  //   return () => {
+  //     clearInterval(timer as NodeJS.Timeout);
+  //   };
+  // }, [countDown]);
 
   return (
     <div className="flex flex-wrap m-[4rem] gap-[2rem]">
+     
       {/* <Link href={"/podcast"}>Podcast</Link>
       <Link href={"/task"}>Tasks</Link> */}
       <Button
@@ -166,8 +168,7 @@ export default function Home() {
       {showModalImages && (
         <ModalImages
           onClick={() => setShowModalImages(false)}
-          list={list}
-          keyActive={list[0]}
+          onClose={() => setShowModalImages(false)}
         />
       )}
 

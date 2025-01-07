@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import AuthenticationProvider from "./core/Context/Authentication.context";
 import "./globals.css";
 import "./styles/element.global.scss";
-import './styles/theme.global.css'
+import "./styles/theme.global.css";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -18,6 +18,7 @@ const geistMono = localFont({
 import { Inter } from "next/font/google";
 import { ApplicationErrorProvider } from "./core/Context/ApplicationError";
 import ThemeProvider from "./core/Context/Theme";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 // If loading a variable font, you don't need to specify the font weight
@@ -39,6 +40,17 @@ export default function RootLayout({
       >
         <ApplicationErrorProvider>
           <ThemeProvider>
+            <div className="absolute pointer-events-none top-0 w-full h-[50rem]">
+              <Image
+                src={
+                  "https://tailwindcss.com/_next/static/media/docs-dark@30.1a9f8cbf.avif"
+                }
+                width={100}
+                height={100}
+                alt="bg"
+                className="w-full h-full"
+              />
+            </div>
             <AuthenticationProvider>{children}</AuthenticationProvider>
           </ThemeProvider>
         </ApplicationErrorProvider>
