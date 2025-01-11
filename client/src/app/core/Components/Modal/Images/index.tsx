@@ -6,6 +6,7 @@ import Overlay from "../../Overlay";
 import { ModalImagesProps } from "./types/modalImages.type";
 import Functions from "./ui/Functions";
 import ImageActive from "./ui/Images";
+import DownloadImage from "./ui/download";
 
 const FUNCTIONS = [
   {
@@ -16,8 +17,9 @@ const FUNCTIONS = [
 const ModalImages = (props: ModalImagesProps) => {
   const { list, onClick, keyActive, onSetActive, onClose } = props;
   const [files, setFile] = useState<File[]>([]);
-  const [arrayUrl, setArrayUrl] = useState<string[]>([]);
-  const [imageActive, setImageActive] = useState("");
+
+  const [arrayUrl, setArrayUrl] = useState<{ url: string, file: File }[]>([]);
+  const [imageActive, setImageActive] = useState<{ url: string, file: File } | null>(null);
 
   useDisableScrollBody();
   console.log("re-render");
@@ -48,20 +50,21 @@ const ModalImages = (props: ModalImagesProps) => {
         resloveErroUiInstance.catchError(res, onClose);
         return;
       }
-      console.log({ res });
       const { images } = res?.metadata;
-      const urls: string[] = [];
+      const urls: { url: string, file: File }[] = [];
       images
-     
-       
+
+
         .forEach((img) => {
           const data = img?.data?.data;
-          console.log({ img });
+          const extend = `image/${img?.name.split(".")[1]}`
           const blob = new Blob([new Uint8Array(data)], {
-            type: `image/${img?.name.split(".")[1]}`,
+            type: extend,
           }); // Thay 'image/jpeg' nếu ảnh là PNG hoặc GIF
+          const file = new File([blob], img?.name.split(".")[0], { type: extend })
+          console.log({file})
           const url = URL.createObjectURL(blob); // Tạo URL tạm thời từ Blob
-          urls.push(url);
+          urls.push({ url, file });
         });
       setImageActive(urls[1]);
       setArrayUrl(urls);
@@ -69,11 +72,11 @@ const ModalImages = (props: ModalImagesProps) => {
     callApi();
   }, []);
 
-  const onSetImageActive = (url: string) => {
-    setImageActive(url);
+  const onSetImageActive = ({url, file}: {url: string, file: File}) => {
+    setImageActive({url, file});
   };
-
- ;
+console.log({imageActive})
+  ;
   return (
     <Overlay
       onClickOverlay={onClick}
@@ -83,16 +86,16 @@ const ModalImages = (props: ModalImagesProps) => {
         <div className="sticky  top-0 py-[1.6rem] xl-p-0 min-h-[6rem] xl:min-h-full w-full xl:w-[10rem]  rounded-md flex-col">
           <Functions
             listImage={arrayUrl}
-            origin={imageActive}
+            origin={imageActive?.url as string}
             onSetImageActive={onSetImageActive}
           />
         </div>
         <div className="min-h-[20rem] h-[90vh] flex-1 py-[1rem] xl:py-[7rem] ">
           <div className=" h-full rounded-md flex">
-            <ImageActive url={imageActive} />
+            <ImageActive url={imageActive?.url as string} />
           </div>
         </div>
-        <div className="min-h-[20rem] xl:min-h-full w-full xl:w-[34rem] bg-yellow-400 rounded-md"></div>
+        <div className="min-h-[20rem] xl:min-h-full w-full xl:w-[34rem]  rounded-md"><DownloadImage url={imageActive?.url || ''} file={imageActive?.file} /></div>
       </div>
     </Overlay>
   );

@@ -17,7 +17,8 @@ export type ButtonProps = {
     position?: "Before" | "After";
     hidden?: boolean;
   };
-  styleText?: React.CSSProperties
+  styleText?: React.CSSProperties;
+  isFull?: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button = (props: ButtonProps) => {
@@ -28,6 +29,7 @@ const Button = (props: ButtonProps) => {
     loadingStyle,
     iconConfig,
     styleText = {},
+    isFull = false,
     ...buttonProps
   } = props;
 
@@ -44,6 +46,7 @@ const Button = (props: ButtonProps) => {
     <button
       {...buttonProps}
       className={`${styleButton} ${buttonProps.className}`}
+      style={{ width: isFull ? '100%' : '' }}
     >
       {iconConfig && renderIcon}
       <span style={styleText}>{textContent}</span>

@@ -1,7 +1,8 @@
 type TListImagesProps = {
-    images: string[],
-    onSetImageActive: (url: string) => void,
+    images: { url: string, file: File }[]
+    onSetImageActive: ({ url, file }: { url: string, file: File }) => void
+
     origin: string
 }
 
-export type {TListImagesProps}
+export type { TListImagesProps }

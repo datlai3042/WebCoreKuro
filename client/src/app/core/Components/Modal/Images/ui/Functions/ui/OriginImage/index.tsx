@@ -8,7 +8,7 @@ const OriginImage = (props: TOriginImageProps) => {
     <Image
       src={url}
       alt="Origin Image"
-      className="w-full h-full rounded-lg"
+      className="w-full h-full rounded-lg object-contain"
       width={80}
       height={80}
     />
