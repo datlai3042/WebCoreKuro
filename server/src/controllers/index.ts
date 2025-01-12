@@ -1,4 +1,4 @@
-import AuthController from "./authentication";
-import TasksController from "./tasks";
-
-export {AuthController, TasksController}
+import AuthController from './authentication'
+import TasksController from './tasks'
+import UtilsControllers from './utils'
+export { AuthController, TasksController, UtilsControllers }

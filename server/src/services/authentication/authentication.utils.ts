@@ -70,7 +70,7 @@ export const checkDataUser = async ({ email, password }: { email: string; passwo
 }
 
 export const checkMailAndCreateUser = async ({ email, password }: { email: string; password: string }) => {
-  console.log({email, password})
+  console.log({ email, password })
   const foundEmail = await userModel.findOne({ user_email: email })
   if (foundEmail) throw new AuthFailedError({ metadata: 'Email đã tồn tại' })
 

@@ -4,8 +4,6 @@ import { Application } from '~/type'
 const DOCUMENT_NAME = 'Key'
 const COLLECTION_NAME = 'keys'
 
-
-
 export type KeyManagerDocument = Document & Application.Account.Key.KeySchema
 
 const keySchema = new Schema<Application.Account.Key.KeySchema>(
@@ -15,7 +13,6 @@ const keySchema = new Schema<Application.Account.Key.KeySchema>(
     private_key: { type: String, required: true },
     refresh_token: { type: String, required: true },
     refresh_token_used: { type: [String], required: true }
-
   },
   { collection: COLLECTION_NAME, timestamps: true }
 )

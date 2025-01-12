@@ -19,7 +19,6 @@ export const generatePaidKey = (): Application.Token.Key => {
   return { public_key, private_key }
 }
 
-
 export const generateCodeVerifyToken = (): string => {
   const code_verify_refresh_token = randomBytes(20).toString('hex')
   return code_verify_refresh_token
@@ -85,7 +84,7 @@ export const verifyRefreshToken = ({ user, keyStore, client_id, token, key, req,
   const force = req.body.force
 
   jwt.verify(token, key, (error, decode) => {
-    console.log({token, key, user})
+    console.log({ token, key, user })
     if (error) {
       return next(new ForbiddenError({ metadata: 'Token không đúng123' }))
     }
@@ -102,7 +101,7 @@ export const verifyRefreshToken = ({ user, keyStore, client_id, token, key, req,
   })
 }
 
-export const fillDataKeyModel = (user: UserDocument, public_key: string, private_key: string, refresh_token: string,) => {
+export const fillDataKeyModel = (user: UserDocument, public_key: string, private_key: string, refresh_token: string) => {
   const modelKeyQuery = {
     user_id: user?._id
   }

@@ -18,7 +18,6 @@ export type UserSocket = { [key: string]: { socket_id: string } }
 config()
 const app = express()
 
-
 MongoConnect.Connect()
 
 app.use(helmet())
@@ -31,20 +30,18 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://localhost:5173',process.env.CLIENT_URL as string],// Cho phép truy cập từ origin này
+    origin: ['http://localhost:3000', 'http://localhost:5173', process.env.CLIENT_URL as string], // Cho phép truy cập từ origin này
     methods: ['GET', 'POST', 'DELETE'], // Chỉ cho phép các phương thức GET và POST
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'], // Chỉ
     credentials: true
   })
 )
 
-
 app.use('', router)
 
 app.use((error: Http.ServerError, req: Request, res: Response, next: NextFunction) => {
   return errorHandler(error, req, res, next)
 })
-
 
 const PORT = process.env.PORT || 4001
 app.listen(PORT, () => {

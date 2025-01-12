@@ -91,6 +91,15 @@ export default function Home() {
     }
   }, [countDown]);
 
+  const callAPI = async () => {
+    const res = await http.get<unknown>('/v1/api/utils/stream', {})
+    console.log({res})
+  }
+  useEffect(() => {
+    
+    callAPI()
+  },[])
+
   // useEffect(() => {
   //   if (countDown && countDown <= -1) return;
   //   timer = setInterval(() => {
@@ -133,6 +142,16 @@ export default function Home() {
         onClick={login}
         loading={true}
       />
+
+<Button
+        iconConfig={{ component: BiPlus }}
+        styleText={{color: '#fff'}}
+
+        textContent="Đọc stream"
+        onClick={callAPI}
+        loading={true}
+      />
+
 
       <Button
         styleText={{color: '#fff'}}

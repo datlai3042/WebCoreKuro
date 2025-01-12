@@ -1,34 +1,30 @@
-import { NextFunction, Request, Response } from "express"
-import { Types } from "mongoose"
-import { UserDocument } from "./models/User"
-import { KeyManagerDocument } from "./models/Key"
+import { NextFunction, Request, Response } from 'express'
+import { Types } from 'mongoose'
+import { UserDocument } from './models/User'
+import { KeyManagerDocument } from './models/Key'
 
 namespace Http {
   interface RequestCutome<TBody = any, TQuery = any> extends Request {
-    user?: UserDocument,
-    key?: KeyManagerDocument,
+    user?: UserDocument
+    key?: KeyManagerDocument
     force?: boolean
-    body: TBody,
-    query: TQuery,
+    body: TBody
+    query: TQuery
     refresh_token?: string
   }
 
   type RequestInstance<TBody = any, TQuery = any> = {
-    req: RequestCutome<TBody, TQuery>,
-    res: Response,
-    next: NextFunction,
+    req: RequestCutome<TBody, TQuery>
+    res: Response
+    next: NextFunction
   }
-
-
 
   interface ServerError extends Error {
     code?: number
     detail?: string
     metadata: any
   }
-
 }
-
 
 namespace Application {
   namespace Account {
@@ -67,7 +63,6 @@ namespace Application {
       }
     }
   }
-
 
   namespace Token {
     export type Key = {

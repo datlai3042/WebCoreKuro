@@ -7,11 +7,7 @@ export class ResponseError extends Error {
   message: string
   metadata: string | any
 
-  constructor({
-    code = statusCode.INTERNAL_SERVER_ERROR,
-    message = reasonCode.INTERNAL_SERVER_ERROR,
-    metadata
-  }: TResponseError) {
+  constructor({ code = statusCode.INTERNAL_SERVER_ERROR, message = reasonCode.INTERNAL_SERVER_ERROR, metadata }: TResponseError) {
     super(message)
     this.code = code
     this.message = message
@@ -44,11 +40,7 @@ export class NotFoundError extends ResponseError {
 }
 
 export class InternalError extends ResponseError {
-  constructor({
-    code = statusCode.INTERNAL_SERVER_ERROR,
-    message = reasonCode.INTERNAL_SERVER_ERROR,
-    metadata = ''
-  }: TResponseError) {
+  constructor({ code = statusCode.INTERNAL_SERVER_ERROR, message = reasonCode.INTERNAL_SERVER_ERROR, metadata = '' }: TResponseError) {
     super({ code, message, metadata })
   }
 }

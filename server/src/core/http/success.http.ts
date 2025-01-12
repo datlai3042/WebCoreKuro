@@ -20,8 +20,8 @@ class ResponseSuccess {
   }
 
   sendStream(res: Response) {
-    const boundary = 'boundary';
-    res.setHeader('Content-Type', `multipart/mixed; boundary=${boundary}`);
+    const boundary = 'boundary'
+    res.setHeader('Content-Type', `multipart/mixed; boundary=${boundary}`)
     console.log(this)
     return res.end()
   }
