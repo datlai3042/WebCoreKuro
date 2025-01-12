@@ -5,7 +5,7 @@ import Image from "next/image";
 const ImageActive = (props: TImageActive) => {
   const { url } = props;
   return (
-    <div className="w-full h-full ">
+    <div className="w-full min-h-full flex justify-center items-center ">
       <Image
         src={url}
         alt="Origin Image"

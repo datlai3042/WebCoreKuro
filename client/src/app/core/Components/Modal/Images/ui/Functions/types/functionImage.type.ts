@@ -1,7 +1,7 @@
 type TFunctionImageProps = {
-    listImage: string[]
+    listImage: { url: string, file: File }[]
     origin: string
-    onSetImageActive: (url: string) => void
+    onSetImageActive: ({url, file}: { url: string, file: File } ) => void
 }
 
 

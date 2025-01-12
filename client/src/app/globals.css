@@ -40,12 +40,13 @@ border-radius: .6rem;
 }
 @layer components {
   .custom-button {
-    @apply min-w-[15rem] w-max min-h-[3.8rem] h-max rounded-md text-[#fff] text-[1.4rem] bg-[var(--color-pink)] flex justify-center  items-center gap-[.6rem];
+    @apply min-w-[15rem] w-max min-h-[3.8rem] h-max rounded-md text-[#fff] text-[1.4rem] bg-[var(--color-primary)] flex justify-center  items-center gap-[.6rem];
   }
 }
 
 :root {
   --color-pink: #7731d8;
+  --color-primary: #175FEF;
 }
 
 html {
