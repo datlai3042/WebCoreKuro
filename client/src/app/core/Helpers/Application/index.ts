@@ -1,0 +1,3 @@
+const renderStyleTextTheme = (isDark: boolean) => {
+    
+}

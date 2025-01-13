@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useMemo } from "react";
 import { styleButton } from "./style.constans";
@@ -7,6 +7,7 @@ import Spinner from "../Loading/Spinner";
 
 export type ButtonProps = {
   textContent?: string;
+  children?: React.ReactNode;
   typeLoading?: ButtonLoading;
   loading?: boolean;
   loadingStyle?: ButtonLoadingStyle;
@@ -18,18 +19,19 @@ export type ButtonProps = {
     hidden?: boolean;
   };
   styleText?: React.CSSProperties;
-  isFull?: boolean
+  isFull?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button = (props: ButtonProps) => {
   const {
     textContent,
     loading,
-    typeLoading = 'spinner',
+    typeLoading = "spinner",
     loadingStyle,
     iconConfig,
     styleText = {},
     isFull = false,
+    children,
     ...buttonProps
   } = props;
 
@@ -46,10 +48,10 @@ const Button = (props: ButtonProps) => {
     <button
       {...buttonProps}
       className={`${styleButton} ${buttonProps.className}`}
-      style={{ width: isFull ? '100%' : '' }}
+      style={{ width: isFull ? "100%" : "" }}
     >
       {iconConfig && renderIcon}
-      <span style={styleText}>{textContent}</span>
+      <span style={styleText}>{textContent || children}</span>
       {loading && typeLoading === "spinner" && <Spinner style={loadingStyle} />}
     </button>
   );

@@ -19,6 +19,7 @@ import { Inter } from "next/font/google";
 import { ApplicationErrorProvider } from "./core/Context/ApplicationError";
 import ThemeProvider from "./core/Context/Theme";
 import Image from "next/image";
+import BackgroundApplication from "./core/Components/Application/Background";
 
 const inter = Inter({ subsets: ["latin"] });
 // If loading a variable font, you don't need to specify the font weight
@@ -40,17 +41,7 @@ export default function RootLayout({
       >
         <ApplicationErrorProvider>
           <ThemeProvider>
-            <div className="absolute pointer-events-none top-0 w-full h-[50rem]">
-              <Image
-                src={
-                  "https://tailwindcss.com/_next/static/media/docs-dark@30.1a9f8cbf.avif"
-                }
-                width={100}
-                height={100}
-                alt="bg"
-                className="w-full h-full"
-              />
-            </div>
+            <BackgroundApplication />
             <AuthenticationProvider>{children}</AuthenticationProvider>
           </ThemeProvider>
         </ApplicationErrorProvider>

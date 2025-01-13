@@ -1,3 +1,4 @@
 import { LogoText } from "./Logo";
-
-export { LogoText }
+import Intro from "./Intro";
+import BackgroundApplication from "./Background";
+export { LogoText, Intro, BackgroundApplication }
