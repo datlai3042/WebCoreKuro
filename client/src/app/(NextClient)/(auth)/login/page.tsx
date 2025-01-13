@@ -1,9 +1,8 @@
-import React from 'react'
+import LoginView from "@/app/views/Login";
+import React from "react";
 
 const LoginPage = () => {
-  return (
-    <div>LoginPage</div>
-  )
-}
+  return <LoginView />;
+};
 
-export default LoginPage
+export default LoginPage;
