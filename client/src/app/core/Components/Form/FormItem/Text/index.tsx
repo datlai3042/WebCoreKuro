@@ -15,13 +15,12 @@ const FormText = <TFieldValues extends FieldValues = FieldValues>(
     placeholder,
     isTheme = true,
     direction = "Y",
-    error = false,
   } = config;
-
-
   const [focus, setFocus] = useState(false);
-
+  
   const [value, setValue] = useState("");
+  const isError = !!instanceControl.formState.errors[name]
+  console.log({instanceControl, isError, msg: instanceControl.formState.errors[name]?.message})
 
   const renderStyleFormItem = useMemo(() => {
     let style = {};
@@ -35,63 +34,64 @@ const FormText = <TFieldValues extends FieldValues = FieldValues>(
     return style;
   }, [direction]);
 
- 
   const configStyleInput = () => {
-    return error ? styles["input__common--isError"] : "";
+    return isError ? styles["input__common--isError"] : "";
   };
 
   const configStyleLabel = () => {
-    const  classStyles = [];
+    const classStyles = [];
 
-    if (!error) {
+    if (!isError) {
       classStyles.push(
         focus || value ? styles.label__focus : styles.label__notFocus
       );
     }
 
-    if (error) {
+    if (isError) {
       classStyles.push(styles["label--isError"]);
     }
 
-    console.log({ classStyles });
     return classStyles.join("");
   };
 
-  console.log({ config: configStyleLabel() });
-
   return (
-    <Box
-      isTheme={isTheme}
-      style={renderStyleFormItem}
-      className={`${styles.formItem__wrapper}`}
-    >
-      <Label
-        htmlFor={name}
-        content={placeholder}
-        className={`${styles.label} ${configStyleLabel()}`}
-      />
-      <input
-        {...native} // Gộp các thuộc tính từ native trước
-        {...instanceControl.control.register(name)} // Gộp thuộc tính từ register
-        onChange={(e) => {
-          instanceControl.control.register(name)?.onChange?.(e); // Gọi sự kiện onChange từ register
-          native?.onChange?.(e); // Gọi sự kiện onChange từ native nếu có
-          setValue(e.target.value);
-          if(!!instanceControl.formState.errors[name]) {
-            instanceControl.clearErrors(name)
-          }
-        }}
-        onBlur={(e) => {
-          instanceControl.control.register(name)?.onBlur?.(e); // Gọi sự kiện onBlur từ register
-          native?.onBlur?.(e); // Gọi sự kiện onBlur từ native nếu có
-          setFocus(false);
-        }}
-        className={`${native.className || ""} ${
-          styles.input__common
-        } ${configStyleInput()}`}
-        id={name}
-        onFocus={() => setFocus(true)}
-      />
+    <Box className={`${styles.field__wrapper}`}>
+      <Box
+        isTheme={isTheme}
+        style={renderStyleFormItem}
+        className={`${styles.input__block}`}
+      >
+        <Label
+          htmlFor={name}
+          content={placeholder}
+          className={`${styles.label} ${configStyleLabel()}`}
+        />
+        <input
+          {...native} // Gộp các thuộc tính từ native trước
+          {...instanceControl.control.register(name)} // Gộp thuộc tính từ register
+          onChange={(e) => {
+            instanceControl.control.register(name)?.onChange?.(e); // Gọi sự kiện onChange từ register
+            native?.onChange?.(e); // Gọi sự kiện onChange từ native nếu có
+            setValue(e.target.value);
+            if (!!instanceControl.formState.errors[name]) {
+              instanceControl.clearErrors(name);
+            }
+          }}
+          onBlur={(e) => {
+            instanceControl.control.register(name)?.onBlur?.(e); // Gọi sự kiện onBlur từ register
+            native?.onBlur?.(e); // Gọi sự kiện onBlur từ native nếu có
+            setFocus(false);
+          }}
+          className={`${native.className || ""} ${
+            styles.input__common
+          } ${configStyleInput()}`}
+          id={name}
+          onFocus={() => setFocus(true)}
+        />
+      </Box>
+      <span className="pl-[1rem] text-red-500 font-bold text-[1.2rem]">
+        {isError && instanceControl.formState.errors[name]?.message as React.ReactNode}
+      </span>
     </Box>
   );
 };

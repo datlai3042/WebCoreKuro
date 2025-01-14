@@ -9,7 +9,7 @@ const BackgroundApplication = () => {
   return (
     <>
       {theme === "dark" ? (
-        <Box className="absolute pointer-events-none top-0 w-full h-[50rem]">
+        <Box className="absolute pointer-events-none top-0 w-full h-[50rem] hidden xl:block">
           <Image
             src={
               "https://tailwindcss.com/_next/static/media/docs-dark@30.1a9f8cbf.avif"

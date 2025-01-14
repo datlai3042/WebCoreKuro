@@ -32,6 +32,13 @@ border-radius: .6rem;
   background-color: var(--scroll-bar-track);
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+  background-color: none;
+}
+
 .ani-scale {
   animation: ani-scale 0.4s linear both;
 }

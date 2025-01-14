@@ -2,17 +2,21 @@ import Box from "@/app/core/Components/Box";
 import { FormContainer } from "@/app/core/Components/Form";
 import FormText from "@/app/core/Components/Form/FormItem/Text";
 import { Paragraph } from "@/app/core/Components/Text";
-
+import {z} from 'zod'
 const initForm = {
-  username: "",
+  password: "",
   email: "",
-  last_name: "",
-  first_name: "",
+
 };
+
+const loginSchemaValidate = z.object({
+  email: z.string().email('Vui lòng nhập email'),
+  password: z.string().min(1, 'Vui lòng nhập mật khẩu')
+})
 
 const LoginForm = () => {
   return (
-    <Box className="w-full h-[calc(100vh-80px)] px-[4rem] mt-[6rem] flex flex-col gap-[3rem]">
+    <Box className="w-full h-full flex flex-col gap-[3rem] rounded-lg p-[2rem] bg-[var(--bg-theme)]">
       <Paragraph
         className=" text-[3rem] font-bold text-[#175fef]"
         isTheme={false}
@@ -21,90 +25,41 @@ const LoginForm = () => {
       </Paragraph>
 
       <FormContainer
-        formInit={{ initialValues: initForm, formId: "Login" }}
+        formInit={{ initialValues: initForm, formId: "Login", schemaValidate: loginSchemaValidate }}
         style={{ width: "100%" }}
         config={[
           {
             width: "48%",
+            isFullMobile: false,
             render: (_instance) => {
-              console.log({ _instance });
-              const isError = _instance.formState;
               return (
-                <Box className="flex flex-col gap-[.6rem]">
-                  <FormText
-                    instanceControl={_instance}
-                    config={{
-                      name: "first_name",
-                      placeholder: "Nhập First Name",
-                      error: !!isError.errors["first_name"],
-                    }}
-                  />
-                  <span className="pl-[1rem] text-red-500 font-bold text-[1.2rem]">
-                    {isError.errors["first_name"]?.message}
-                  </span>
-                </Box>
+                <FormText
+                  instanceControl={_instance}
+                  config={{
+                    name: "email",
+                    placeholder: "Nhập email",
+                  }}
+                />
               );
             },
           },
 
           {
             width: "48%",
-            render: (_instance) => (
-              <FormText
-                instanceControl={_instance}
-                config={{
-                  name: "last_name",
-                  placeholder: "Nhập Last Name",
-                }}
-              />
-            ),
-          },
-          {
-            width: "70%",
+            isFullMobile: false,
             render: (_instance) => {
-              console.log({ _instance });
-              const isError = _instance.formState;
               return (
-                <Box className="flex flex-col gap-[.6rem]">
-                  <FormText
-                    instanceControl={_instance}
-                    config={{
-                      name: "username",
-                      placeholder: "Nhập username",
-                      error: !!isError.errors["username"],
-                    }}
-                  />
-                  <span className="pl-[1rem] text-red-500 font-bold text-[1.2rem]">
-                    {isError.errors["username"]?.message}
-                  </span>
-                </Box>
+                <FormText
+                  instanceControl={_instance}
+                  config={{
+                    name: "password",
+                    placeholder: "Nhập mật khẩu",
+                  }}
+                />
               );
             },
           },
 
-          {
-            width: "25%",
-            render: (_instance) => {
-              console.log({ _instance });
-              const isError = _instance.formState;
-              return (
-                <Box className="flex flex-col gap-[.6rem]">
-                  <FormText
-                    instanceControl={_instance}
-                    config={{
-                      name: "email",
-                      placeholder: "Nhập email",
-                      error: !!isError.errors["email"],
-                    }}
-                  />
-                  <span className="pl-[1rem] text-red-500 font-bold text-[1.2rem]">
-                    {isError.errors["email"]?.message}
-                  </span>
-                </Box>
-              );
-            },
-            
-          },
         ]}
       />
     </Box>

@@ -9,8 +9,10 @@
   --scroll-bar-track: #e8e8e8;
   --bg-intro: rgb(9 3 43 / 4%);
   --text-opacity: rgb(108 114 132);
-  --border-input: #fefefe;
-  --input-opacity: .2
+  --border-input: #cccccc33;
+  --input-opacity: .2;
+  --color-primary: #175fef;
+  --color-third: #6c7278;
 }
 
 body.dark {
@@ -21,7 +23,7 @@ body.dark {
   --bg-body-color: #0f172a;
   --color-theme: #fff;
   --bg-intro: rgb(9 3 43 / 4%);
-  --border-input: #fefefe;
+  --border-input: #cccccc33;
   --input-opacity: .2
 
 }
@@ -33,7 +35,7 @@ body.light {
   --bg-body-color: #fff;
   --color-theme: #222;
   --bg-intro: #2725b8d9;
-  --border-input: #175fef;
+  --border-input: #c9cbcb;
   --input-opacity: .6
 
 }

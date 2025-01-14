@@ -9,7 +9,7 @@ export const ThemeContext = createContext<TThemeContext>({
 });
 
 const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState<TTheme>("dark");
+  const [theme, setTheme] = useState<TTheme>("light");
 
   useEffect(() => {
     const body = document.body;

@@ -1,0 +1,41 @@
+.projectName {
+  position: relative;
+  width: 50%;
+  background-color: #fafafa;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-primary);
+  font-size: 2.4rem;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  font-weight: 700;
+  gap: .6rem;
+}
+
+.projectName::before {
+  content: "";
+  position: absolute;
+  left: -2.5rem;
+  top: 0;
+  width: 2.5rem;
+  height: 100%;
+  box-shadow: 0 -2.5rem 0 0 #fafafa;
+  border-top-right-radius: 2rem;
+  border: none;
+}
+
+.projectName::after {
+  content: "";
+  position: absolute;
+  right: -2.5rem;
+  top: 0;
+  width: 2.5rem;
+  height: 100%;
+  box-shadow: 0 -2.5rem 0 0 #fafafa;
+  border-top-left-radius: 2rem;
+
+}
+
+// text-[#fff] text-[2.4rem] w-[40%] mx-auto bg-[#fafafa]

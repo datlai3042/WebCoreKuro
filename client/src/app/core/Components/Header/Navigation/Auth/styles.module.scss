@@ -1,0 +1,43 @@
+.nav {
+  position: relative;
+  color: var(--color-third);
+  min-width: 6rem;
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.nav::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  left: 0;
+}
+
+.nav:hover,
+.nav--active {
+  color: var(--color-primary);
+}
+
+.nav:hover::after {
+  width: 80%;
+  height: 0.25rem;
+  background-color: var(--color-primary);
+  animation: navAnimate .2s linear both;
+  border-radius: .6rem;
+  bottom: -.3rem;
+}
+
+@keyframes navAnimate {
+  0% {
+    width: 0%;
+    right: 10%;
+  }
+  100% {
+    width: 80%;
+    right: 10%;
+    left: 10%;
+  }
+}

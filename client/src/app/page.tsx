@@ -14,6 +14,8 @@ import SkeletonAvatar from "./core/Ui/Loading/Skeleton/Avatar";
 import SkeletonBox from "./core/Ui/Loading/Skeleton/Box";
 import ModalImages from "./core/Components/Modal/Images";
 import Image from "next/image";
+import LoginForm from "./views/Login/ui/form";
+import Link from "next/link";
 
 const list = [
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaCpoEEdCLYs62sDKwTLi88GFzlVFm4Y0S_g&s",
@@ -118,6 +120,7 @@ export default function Home() {
      
       {/* <Link href={"/podcast"}>Podcast</Link>
       <Link href={"/task"}>Tasks</Link> */}
+      <Link href={"/login"}>Đăng nhập</Link>
       <Button
         iconConfig={{ component: BiPlus }}
         textContent="Mở book"
@@ -224,6 +227,8 @@ export default function Home() {
       <SkeletonBox />
 
       <SkeletonAvatar />
+
+      <LoginForm />
 
       <span>
         Thời gian token hết hạn:{" "}
