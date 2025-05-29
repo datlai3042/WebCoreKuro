@@ -63,14 +63,12 @@ export const checkDataUser = async ({ email, password }: { email: string; passwo
   const foundUser = await userModel.findOne({ user_email: email })
   if (!foundUser) throw new ForbiddenError({ metadata: 'Không tìm thấy thông tin tài khoản' })
 
-  const checkPassword = compare(password, foundUser?.user_password)
-  if (!checkPassword) throw new ForbiddenError({ metadata: 'Không tin tài khoản không chính xác' })
-
+  const checkPassword = await compare(password, foundUser?.user_password)
+  if (!checkPassword) throw new ForbiddenError({ metadata: 'Thông tin tài khoản không chính xác' })
   return { user: foundUser }
 }
 
 export const checkMailAndCreateUser = async ({ email, password }: { email: string; password: string }) => {
-  console.log({ email, password })
   const foundEmail = await userModel.findOne({ user_email: email })
   if (foundEmail) throw new AuthFailedError({ metadata: 'Email đã tồn tại' })
 

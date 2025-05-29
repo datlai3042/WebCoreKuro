@@ -1,89 +1,114 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-button {
-  border: none;
-  outline: none;
-}
-
-body {
-  min-height: 100vh;
-  background-image: var(--bg-body-color);
-}
-
-input {
-  outline: none;
-}
-
-
-*::-webkit-scrollbar {
-  width: .8rem;
-  height: .4rem;
-
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--scroll-bar-thumb);
-border-radius: .6rem;
-}
-
-*::-webkit-scrollbar-track {
-  background-color: var(--scroll-bar-track);
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-  background-color: none;
-}
-
-.ani-scale {
-  animation: ani-scale 0.4s linear both;
-}
-@keyframes ani-scale {
-  0% {
-    transform: scale(0);
-  }
-  90% {
-    transform: scale(1);
-  }
-}
-@layer components {
-  .custom-button {
-    @apply min-w-[15rem] w-max min-h-[3.8rem] h-max rounded-md text-[#fff] text-[1.4rem] bg-[var(--color-primary)] flex justify-center  items-center gap-[.6rem];
-  }
-}
-
-:root {
-  --color-pink: #7731d8;
-  --color-primary: #175FEF;
-}
+@import "./fonts.css";
+@import "./styles/form.style.css";
+@import "../app/core/Components/Form/form.styles.module.css";
 
 html {
   font-size: 62.5%;
 }
 
-.print-logo {
-  display: none;
+body {
+  font-size: 1.4rem;
+  font-family: "Poppins", sans-serif;
 }
 
-@media print {
-  body {
-    background-color: white; /* hoặc màu nền bạn muốn */
-    -webkit-print-color-adjust: exact; /* Đảm bảo màu sắc chính xác */
-    print-color-adjust: exact;
+:root {
+  --primary-color: #130568;
+  --second-color: #1c1c1c;
+  --mini-color: #525252;
+  --line-color: rgb(169 169 204 / 74%);
+}
+
+@layer base {
+  :root {
+    --bg-input-core: #ffffff;
+    --bg-input-core-2: #000000;
+    --bg-dark-readOnly: #08112b;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+    --bg-client-loading: #3d52a2;
+    --color-gap-empty: #f1f4fb;
+    /* --color-main: #6262e5; */
+    --color-main: #3d52a2;
+    --color-section-theme: #fff7f77d;
+    --text-theme: #000;
+    --color-main-hover: rgb(229 231 235);
+    --border-color: hwb(0 10% 88% / 0.189);
+    --bg-form-nav: #fff;
+    --bg-input-theme: #fff;
+    --btn-design: #2d68ff;
+    --bg-model: #eef1f9;
+    --color-btn-primarily: rgb(37, 104, 170);
+    --toast-success: #4299de;
+    --toast-error: #f4454c;
+    --toast-warning: #ea580c;
+    --border-color-input: rgb(209 213 219 / 27%);
   }
 
-  video {
-    display: block;
+  html {
+    scroll-behavior: smooth;
   }
 
-  .print-logo {
-    display: flex;
+  body.light {
+    --bg-form-nav: #fff;
+    --color-gap-empty: #eef1f9;
+    --color-main: #3d52a2;
+    --bg-scrollbar-thumb-normal: #636363;
+    --bg-scrollbar-track-normal: #e9e2e2;
+    --bg-answer-option: rgb(180 183 189 / 42%);
+    --color-section-theme: #fefefe;
+    --text-theme: #000;
+    --border-color: hwb(0 10% 88% / 0.189);
+    --bg-model: #eef1f9;
+    --color-main-hover: rgb(229 231 235);
+    --border-form-item: #e8e8e8;
+    --bg-space: #f4f6ff;
+    /* --bg-module-other: #17174b; */
+    --color-main: #3d52a2;
+
+    --bg-module-other: #e1e1e1ca;
+    /* --border-color-input: rgb(200 205 214 / 42%); */
+    --border-color-input: rgb(169 169 204 / 74%);
+
+    /* --border-color-side: rgb(200 205 214 / 42%); */
+    --border-color-side: rgb(200 205 214 / 74%);
+
+    /* --color-btn-primarily: #2d68ff;ư */
   }
-  img {
-    display: block !important;
+
+  body.dark {
+    --color-main: #151274;
+    --bg-form-nav: #393c73;
+    --color-gap-empty: #040429;
+    /* --color-main: #3b36db; */
+    --bg-answer-option: rgb(222 224 228);
+
+    --color-main: #35336a;
+    /* --color-section-theme: #0d1117; */
+
+    --color-section-theme: #08112b;
+    --text-theme: #ccc;
+    --color-main-hover: rgb(229 231 235);
+    --border-color: #14113c;
+    --bg-model: #0f1623;
+    --color-btn-primarily: rgb(37, 104, 170);
+    --border-form-item: transparent;
+    --bg-space: #252525;
+    --bg-module-other: #17174bb0;
+    --border-color-input: rgb(209 213 219 / 27%);
+    --border-color-side: rgb(200 205 214 / 18%);
+    --bg-scrollbar-thumb-normal: rgba(203, 191, 191, 0.758);
+    --bg-scrollbar-track-normal: #2c2c2c;
   }
+}
+
+input.input-form:focus + label {
+  color: var(--color-main);
+  font-weight: 700;
+  display: none;
 }

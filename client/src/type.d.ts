@@ -26,3 +26,17 @@ export namespace Account {
     };
 
 }
+type CustomRequest = Omit<RequestInit, "method"> & {
+      baseUrl?: string;
+      pathName?: string;
+};
+
+type MessageResponse = { message: string };
+
+type TokenNextSync = {
+      access_token: string;
+      refresh_token: string;
+      client_id: string;
+      expireToken: string;
+      code_verify_token: string;
+};
